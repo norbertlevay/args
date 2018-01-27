@@ -23,5 +23,4 @@ clean:
 	rm -f main *.o *.ali build_date.* b~*.ad? b~*.ad?
 
 distclean: clean
-	make distclean
 	rm -f *~
