@@ -31,7 +31,10 @@ procedure main is
     New_Line;
    end if;
    Put_Line("Usage:");
-   Put_Line(" main listopts  - list parsed options");
+    for ix in Options.Commands'Range
+    loop
+     Put_Line(" main " & To_String(Options.Commands(ix)));
+    end loop;
    New_Line;
    Put_Line("Options:");
     for opt in Options.Known_Options'Range

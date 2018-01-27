@@ -5,11 +5,12 @@
 
 --Rules/requirements:
 -- RU Options are parsed by name and always start with dash.
--- RU Option may be given at most once.
 -- RU Option may have at most one value or none.
 -- RQ Support -- (dash-dash) convention to separate options from parameters.
 -- RU Parameters start after last option or its value if it has one.
 -- RU Parameters are parsed by position.
+-- TODO:
+-- RU Option may be given at most once, regardless whether before or after cmd.
 -- RQ Detect invalid option for a given command.
 -- RQ Detect unknown options to the whole program.
 
@@ -38,18 +39,22 @@ type Option_Record (HasValue : Boolean := False) is
 
 function tUS ( s : String ) return Unbounded_String renames To_Unbounded_String;
 
-type All_Options is ( v, h, l, w );
+type All_Options is ( v, h, l );
 
 Known_Options : array (All_Options) of Option_Record := (
-  v => (False, tUS("-v"), tUS("print version")    ,False     ),
-  h => (False, tUS("-h"), tUS("print usage info") ,False     ),
-  l => (True,  tUS("-l"), tUS("list something")   ,tUS("1")  ),
-  w => (True,  tUS("-w"), tUS("print verbosity")  ,tUS("23") )
+  v => (False, tUS("-v"), tUS("print version"),     False ),
+  h => (False, tUS("-h"), tUS("print help"),        False ),
+  l => (True,  tUS("-l"), tUS("list options table"),tUS("short") )
   );
+
+Commands : constant array (Positive range <>) of Unbounded_String := (
+  tUS("help"),
+  tUS("list")
+);
 
 
 Command : Unbounded_String;
--- set by Prse <-- FIXME
+-- set by Parse <-- FIXME
 
 function Parse return Positive;
 -- parse CLI Argument list into Options table and detect errors
