@@ -13,6 +13,7 @@ with
 
 
 use
+    Options,
     Ada.Exceptions,
     Ada.Text_IO,
     Ada.Strings.Unbounded,
@@ -23,10 +24,12 @@ procedure main is
 
  Version : String := "main 0.0.0 Build: " & Build_Date.BuildDate ;
 
- procedure Print_Usage is
+ procedure Print_Usage(WithVersion : Boolean) is
  begin
-   Put_Line("Version: " & Version);
-   New_Line;
+   if WithVersion = True then
+    Put_Line("Version: " & Version);
+    New_Line;
+   end if;
    Put_Line("Usage:");
    Put_Line(" main listopts  - list parsed options");
    New_Line;
@@ -57,7 +60,7 @@ procedure main is
  if Options.Command = "help"
  then
 
-   Print_Usage;
+   Print_Usage(Known_Options(v).State);
 
  elsif Options.Command = "list"
  then
@@ -74,8 +77,10 @@ procedure main is
  end if;
 
 
--- Exception handling:
---
+ --
+ -- Exception handling:
+ --
+
  -- declare exception:
  -- Queue_Error : exception; <- behaves like "type" (not "variable")
  --
@@ -90,7 +95,6 @@ procedure main is
  -- Except_ID will be filled in when a particular exception actually happens
  -- and is an index which can be used to retrieve more info about
  -- that particular exception
-
  exception
  when Except_ID : Name_Error =>
 --     Put_Line( "Name> " & Exception_Name( Except_ID ) );

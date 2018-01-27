@@ -23,5 +23,5 @@ clean:
 	rm -f main *.o *.ali build_date.* b~*.ad? b~*.ad?
 
 distclean: clean
-	make distclean -C doc
-	rm -f *~ test-modifyheader.hdr
+	make distclean
+	rm -f *~
