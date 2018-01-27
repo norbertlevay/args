@@ -22,7 +22,7 @@ use
 
 procedure main is
 
- Version : String := "main 0.0.0 Build: " & Build_Date.BuildDate ;
+ Version : String := "prog 0.0.0 Build: " & Build_Date.BuildDate ;
 
  procedure Print_Usage(WithVersion : Boolean) is
  begin
