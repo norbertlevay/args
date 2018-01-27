@@ -26,14 +26,17 @@ procedure main is
 
  procedure Print_Usage(WithVersion : Boolean) is
  begin
-   if WithVersion = True then
-    Put_Line("Version: " & Version);
-    New_Line;
-   end if;
    Put_Line("Usage:");
+   New_Line;
+   Put_Line(" prog [-h -v] <cmd> [options] [params]");
+   New_Line;
+   Put_Line("Commands:");
     for ix in Options.Commands'Range
     loop
-     Put_Line(" main " & To_String(Options.Commands(ix)));
+      Put_Line(  "  "
+               & To_String(Options.Commands(ix).Token)
+               & "    "
+               & To_String(Options.Commands(ix).Description));
     end loop;
    New_Line;
    Put_Line("Options:");
@@ -45,7 +48,10 @@ procedure main is
                & To_String(Options.Known_Options(opt).Description));
     end loop;
    New_Line;
-   New_Line;
+   if WithVersion = True then
+    Put_Line("Version: " & Version);
+    New_Line;
+   end if;
  end Print_Usage;
 
  Idx_Params : Positive;
@@ -60,7 +66,12 @@ procedure main is
  -- run the command
  --
 
- if Options.Command = "help"
+ if Options.Command = Null_Unbounded_String
+ then
+
+   Print_Usage(Known_Options(v).State);
+
+ elsif Options.Command = "help"
  then
 
    Print_Usage(Known_Options(v).State);

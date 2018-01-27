@@ -44,20 +44,20 @@ type All_Options is ( v, h, l );
 Known_Options : array (All_Options) of Option_Record := (
   v => (False, tUS("-v"), tUS("print version"),     False ),
   h => (False, tUS("-h"), tUS("print help"),        False ),
-  l => (True,  tUS("-l"), tUS("list options table"),tUS("short") )
+  l => (True,  tUS("--verbose"), tUS("level of details (1..5)"),tUS("1") )
   );
 
-Commands : constant array (Positive range <>) of Unbounded_String := (
-  tUS("help"),
-  tUS("list")
+Commands: array (Positive range <>) of Option_Record := (
+  (False, tUS("help"), tUS("print help"),         False ),
+  (False, tUS("list"), tUS("list options table"), False )
 );
+-- FIXME misused Option_Record; needs only Token & Description
 
-
-Command : Unbounded_String;
+Command : Unbounded_String := Null_Unbounded_String;
 -- set by Parse <-- FIXME
 
 function Parse return Positive;
--- parse CLI Argument list into Options table and detect errors
+-- parse CLI Argument list into Options table and Command variable
 -- return index of the 1st param (to be stored in Params_Start_Index)
 
 end Options;
