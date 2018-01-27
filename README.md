@@ -5,7 +5,7 @@ a CLI program in Ada.
 
 Provides this command line syntax:
 
- $ prog cmd <args> [--] <params>
+ $ prog cmd [args] [--] [params]
 
 
 
