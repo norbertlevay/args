@@ -6,10 +6,10 @@
 --Rules/requirements:
 -- RU Options are parsed by name and always start with dash.
 -- RU Option may have at most one value or none.
--- RQ Support -- (dash-dash) convention to separate options from parameters.
 -- RU Parameters start after last option or its value if it has one.
 -- RU Parameters are parsed by position.
 -- TODO:
+-- RQ Support -- (dash-dash) convention to separate options from parameters.
 -- RU Option may be given at most once, regardless whether before or after cmd.
 -- RQ Detect invalid option for a given command.
 -- RQ Detect unknown options to the whole program.
