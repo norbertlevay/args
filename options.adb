@@ -12,8 +12,7 @@ package body Options is
 
 function Parse return Positive
  is
-  Idx : Positive := 2; -- skip command
-  IdxP : Positive := 2; -- for debug only
+  Idx : Positive := 1;
   ArgFound : Boolean;
  begin
 

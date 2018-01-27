@@ -1,18 +1,17 @@
 
 --Implement:
 
--- prog cmd [options] [params]
+-- prog [options] cmd [options] [params]
 
 --Rules/requirements:
--- RU Command is always second argument.
 -- RU Options are parsed by name and always start with dash.
 -- RU Option may be given at most once.
 -- RU Option may have at most one value or none.
--- RQ Detect invalid option for a given command.
--- RQ Detect unknown options to the whole program.
 -- RQ Support -- (dash-dash) convention to separate options from parameters.
 -- RU Parameters start after last option or its value if it has one.
 -- RU Parameters are parsed by position.
+-- RQ Detect invalid option for a given command.
+-- RQ Detect unknown options to the whole program.
 
 -- From iNet, note on dash-dash convention to separate options from params/args:
 --  '--' as a special argument is a GNU extension, but it is mentioned
@@ -55,6 +54,5 @@ Command : Unbounded_String;
 function Parse return Positive;
 -- parse CLI Argument list into Options table and detect errors
 -- return index of the 1st param (to be stored in Params_Start_Index)
-
 
 end Options;
