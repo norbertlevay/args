@@ -61,15 +61,17 @@ function Parse_Options(From : Positive) return Positive
   return Idx;
  end Parse_Options;
 
- -- returns index to params, if any
  -- if no params returned index is bigger then count of arguments
- function Parse return Positive
+ procedure Parse
+           ( Next : in out Integer;
+             Opts : in out Option_Array)
  is
-  Idx : Positive := Parse_Options(1);
+  Idx : Positive := Parse_Options(Next);
  begin
 
   if Idx > CLI.Argument_Count then
-    return Idx;
+    Next := Idx;
+    return;
   end if;
 
   Command := tUS(CLI.Argument(Idx));
@@ -78,7 +80,8 @@ function Parse_Options(From : Positive) return Positive
 
   Idx := Parse_Options(Idx);
 
-  return Idx;
+  Next := Idx;
+  return;
 
  end Parse;
 

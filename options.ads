@@ -41,7 +41,9 @@ function tUS ( s : String ) return Unbounded_String renames To_Unbounded_String;
 
 type All_Options is ( v, h, l );
 
-Known_Options : array (All_Options) of Option_Record := (
+type Option_Array is array (All_Options) of Option_Record;
+
+Known_Options : Option_Array := (
   v => (False, tUS("-v"), tUS("print version"),     False ),
   h => (False, tUS("-h"), tUS("print help"),        False ),
   l => (True,  tUS("--verbose"), tUS("level of details (1..5)"),tUS("1") )
@@ -56,8 +58,10 @@ Commands: array (Positive range <>) of Option_Record := (
 Command : Unbounded_String := Null_Unbounded_String;
 -- set by Parse <-- FIXME
 
-function Parse return Positive;
--- parse CLI Argument list into Options table and Command variable
--- return index of the 1st param (to be stored in Params_Start_Index)
+procedure Parse
+          ( Next : in out Integer;
+            Opts : in out Option_Array);
+-- parse CLI Argument list starting from Next into Options table and Command variable
+-- update Next to index of the 1st param (to be stored in Params_Start_Index)
 
 end Options;

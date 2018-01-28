@@ -54,11 +54,11 @@ procedure main is
    end if;
  end Print_Usage;
 
- Idx_Params : Positive;
+ Idx_Params : Positive := 1;
 
  begin
 
- Idx_Params := Options.Parse;
+ Options.Parse(Idx_Params,Known_Options);
 
  Put_Line("IdxParams: " & Positive'Image(Idx_params));
 
