@@ -39,7 +39,8 @@ package Options is
 
  function tUS ( s : String ) return Unbounded_String renames To_Unbounded_String;
 
- type All_Options is ( v, h, l );
+ type All_Options is ( v, h, l, c );
+ -- FIXME Option tables are defined in main.adb !!
 
  type Option_Array is array (All_Options) of Option_Record;
 

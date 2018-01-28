@@ -26,12 +26,14 @@ procedure main is
  Known_Options : Option_Array := (
    v => (False, tUS("-v"), tUS("print version"),     False ),
    h => (False, tUS("-h"), tUS("print help"),        False ),
-   l => (True,  tUS("--verbose"), tUS("level of details (1..5)"),tUS("1") )
+   l => (True,  tUS("--verbose"), tUS("level of details (1..5)"),tUS("1") ),
+   c => (True,  tUS("-c"), tUS("character"),                     tUS("X") )
  );
 
  Commands: array (Positive range <>) of Option_Record := (
    (False, tUS("help"), tUS("print help"),      False ),
-   (False, tUS("list"), tUS("list parameters"), False )
+   (False, tUS("list"), tUS("list parameters"), False ),
+   (False, tUS("concat2"), tUS("join 2 strings"),   False )
  );
 -- FIXME misused Option_Record; Commands needs only Token & Description
 
@@ -95,7 +97,7 @@ procedure main is
   Put_Line("DBG> Param_Cnt: " & Natural'Image(Param_Cnt));
 
  --
- -- run the command
+ -- run the command with Next Param_Cnt and Opts
  --
 
  if Command = Null_Unbounded_String then
@@ -112,6 +114,12 @@ procedure main is
     Put_Line(Natural'Image(Next) & " > " & Argument(Next));
     Next := Next + 1;
    end loop;
+
+ elsif Command = "concat2" then
+
+     Put_Line(Argument(Next)
+              & To_String(Known_Options(c).Value)
+              & Argument(Next+1));
 
  else
 
