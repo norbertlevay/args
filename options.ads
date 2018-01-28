@@ -27,30 +27,24 @@ use  Ada.Strings.Unbounded;
 
 package Options is
 
-type Option_Record (HasValue : Boolean := False) is
-  record
-    Token       : Unbounded_String;
-    Description : Unbounded_String;
-    case HasValue is
-     when False => State : Boolean;
-     when True  => Value : Unbounded_String;
-    end case;
-   end record;
+ type Option_Record (HasValue : Boolean := False) is
+   record
+     Token       : Unbounded_String;
+     Description : Unbounded_String;
+     case HasValue is
+      when False => State : Boolean;
+      when True  => Value : Unbounded_String;
+     end case;
+    end record;
 
-function tUS ( s : String ) return Unbounded_String renames To_Unbounded_String;
+ function tUS ( s : String ) return Unbounded_String renames To_Unbounded_String;
 
-type All_Options is ( v, h, l );
+ type All_Options is ( v, h, l );
 
-type Option_Array is array (All_Options) of Option_Record;
+ type Option_Array is array (All_Options) of Option_Record;
 
-
-Command : Unbounded_String := Null_Unbounded_String;
--- set by Parse <-- FIXME
-
-procedure Parse
-          ( Next : in out Integer;
-            Opts : in out Option_Array );
--- parse CLI Argument list starting from Next into Options table and Command variable
--- update Next to index of the 1st param (to be stored in Params_Start_Index)
+ procedure Parse_Options
+           ( Next : in out Integer;
+             Opts : in out Option_Array);
 
 end Options;

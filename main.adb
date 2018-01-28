@@ -45,12 +45,12 @@ procedure main is
    Put_Line(" prog [-h -v] <cmd> [options] [params]");
    New_Line;
    Put_Line("Commands:");
-    for ix in Options.Commands'Range
+    for ix in Commands'Range
     loop
       Put_Line(  "  "
-               & To_String(Options.Commands(ix).Token)
+               & To_String(Commands(ix).Token)
                & "    "
-               & To_String(Options.Commands(ix).Description));
+               & To_String(Commands(ix).Description));
     end loop;
    New_Line;
    Put_Line("Options:");
@@ -68,34 +68,59 @@ procedure main is
    end if;
  end Print_Usage;
 
- Idx_Params : Positive := 1;
+ Next      : Positive := 1;
+ Cmd_Given : Boolean := False;
+ Command   : Unbounded_String := Null_Unbounded_String;
+ Param_Cnt : Natural;
 
  begin
 
- Options.Parse(Idx_Params,Known_Options);
+-- Options.Parse(Idx_Params,Known_Options);
+-- B
+  Parse_Options(Next,Known_Options);
+--  Idx := Next;
 
- Put_Line("IdxParams: " & Positive'Image(Idx_params));
+  Put_Line("DBG> Next / ArgCnt "
+           & Positive'Image(Next)
+           & Positive'Image(Argument_Count));
+  Cmd_Given := not (Argument_Count < Next);
+
+  if not Cmd_Given then
+   Print_Usage(Known_Options(v).State);
+   return;
+  end if;
+
+  Command := tUS(Argument(Next));
+  Next    := Next + 1;
+
+  Parse_Options(Next,Known_Options);
+
+  Param_Cnt := Argument_Count - Next + 1;
+-- E
+
+-- Put_Line("IdxParams: " & Positive'Image(Idx_params));
+  Put_Line("DBG> Param_Cnt: " & Positive'Image(Param_Cnt));
 
  --
  -- run the command
  --
 
- if Options.Command = Null_Unbounded_String
+ if Command = Null_Unbounded_String
  then
 
    Print_Usage(Known_Options(v).State);
 
- elsif Options.Command = "help"
+ elsif Command = "help"
  then
 
    Print_Usage(Known_Options(v).State);
 
- elsif Options.Command = "list"
+ elsif Command = "list"
  then
 
-   while Idx_Params <= Argument_Count loop
-    Put_Line("EXEC: list " & Argument(Idx_params));
-    Idx_Params := Idx_Params + 1;
+   while Next <= Argument_Count loop
+    Put_Line("EXEC: list " & Argument(Next));
+    Next := Next + 1;
    end loop;
 
   else

@@ -26,11 +26,10 @@ package body Options is
     Arg : String :=  CLI.Argument(Idx);
    begin
 
-    Put_Line( "DBG: " & Arg );
-
     exit when Arg(1) /= '-';
 
-    -- for opt in Known_Options'Range
+    Put_Line( "DBG: " & Arg );
+
     for opt in Opts'Range
     loop
 
@@ -40,7 +39,8 @@ package body Options is
       if Opts(opt).HasValue = False
       then
         Opts(opt).State := True;
-        Put_Line(All_Options'Image(opt)
+        Put_Line("DBG: "
+                 & All_Options'Image(opt)
                  & " WithValue: " & Boolean'Image(Opts(opt).HasValue)
                  & " State: " & Boolean'Image(Opts(opt).State)
                  & " > " & To_String(Opts(opt).Description)
@@ -48,7 +48,8 @@ package body Options is
       else
         Idx := Idx + 1;
         Opts(opt).Value := tUS(CLI.Argument(Idx));
-        Put_Line(All_Options'Image(opt)
+        Put_Line("DBG: "
+                 & All_Options'Image(opt)
                  & " WithValue: " & Boolean'Image(Opts(opt).HasValue)
                  & " Value: " & To_String(Opts(opt).Value)
                  & " > " & To_String(Opts(opt).Description)
@@ -66,32 +67,6 @@ package body Options is
   return;
  end Parse_Options;
 
- -- if no params returned index is bigger then count of arguments
- procedure Parse
-           ( Next : in out Integer;
-             Opts : in out Option_Array)
- is
-  Idx : Positive;
- begin
-
-  Parse_Options(Next,Opts);
-  Idx := Next;
-
-  if Idx > CLI.Argument_Count then
-    Next := Idx;
-    return;
-  end if;
-
-  Command := tUS(CLI.Argument(Idx));
-
-  Idx := Idx + 1;
-
-  Parse_Options(Idx,Opts);
-
-  Next := Idx;
-  return;
-
- end Parse;
 
 
 end Options;
