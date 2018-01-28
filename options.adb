@@ -9,21 +9,19 @@ package body Options is
 
   package CLI renames Ada.Command_Line;
 
--- fill in Known_Options table
--- return index to first non-option arg
---function Parse_Options(From : Positive) return Positive
+-- fill in Opts table
+-- update Next to first non-option arg
  procedure Parse_Options
            ( Next : in out Integer;
              Opts : in out Option_Array)
  is
-  Idx : Positive := Next;
  begin
 
-  while Idx <= CLI.Argument_Count
+  while Next <= CLI.Argument_Count
   loop
 
    declare
-    Arg : String :=  CLI.Argument(Idx);
+    Arg : String :=  CLI.Argument(Next);
    begin
 
     exit when Arg(1) /= '-';
@@ -46,8 +44,8 @@ package body Options is
                  & " > " & To_String(Opts(opt).Description)
                  );
       else
-        Idx := Idx + 1;
-        Opts(opt).Value := tUS(CLI.Argument(Idx));
+        Next := Next + 1;
+        Opts(opt).Value := tUS(CLI.Argument(Next));
         Put_Line("DBG: "
                  & All_Options'Image(opt)
                  & " WithValue: " & Boolean'Image(Opts(opt).HasValue)
@@ -60,13 +58,10 @@ package body Options is
     end loop;
    end;-- declare
 
-   Idx := Idx + 1;
+   Next := Next + 1;
   end loop;
 
-  Next := Idx;
   return;
  end Parse_Options;
-
-
 
 end Options;
