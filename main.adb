@@ -36,9 +36,7 @@ procedure main is
    (False, tUS("help"), tUS("print help"),         False ),
    (False, tUS("list"), tUS("list options table"), False )
  );
--- FIXME misused Option_Record; needs only Token & Description
-
-
+-- FIXME misused Option_Record; Commands needs only Token & Description
 
  procedure Print_Usage(WithVersion : Boolean) is
  begin
