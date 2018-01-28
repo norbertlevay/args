@@ -19,9 +19,6 @@ use
     Ada.Strings.Unbounded,
     Ada.Command_Line;
 
-
-
-
 procedure main is
 
  Version : String := "prog 0.0.0 Build: " & Build_Date.BuildDate ;
@@ -33,8 +30,8 @@ procedure main is
  );
 
  Commands: array (Positive range <>) of Option_Record := (
-   (False, tUS("help"), tUS("print help"),         False ),
-   (False, tUS("list"), tUS("list options table"), False )
+   (False, tUS("help"), tUS("print help"),      False ),
+   (False, tUS("list"), tUS("list parameters"), False )
  );
 -- FIXME misused Option_Record; Commands needs only Token & Description
 
@@ -75,14 +72,12 @@ procedure main is
 
  begin
 
--- Options.Parse(Idx_Params,Known_Options);
--- B
   Parse_Options(Next,Known_Options);
---  Idx := Next;
 
   Put_Line("DBG> Next / ArgCnt "
            & Positive'Image(Next)
            & Positive'Image(Argument_Count));
+
   Cmd_Given := not (Argument_Count < Next);
 
   if not Cmd_Given then
@@ -96,34 +91,29 @@ procedure main is
   Parse_Options(Next,Known_Options);
 
   Param_Cnt := Argument_Count - Next + 1;
--- E
 
--- Put_Line("IdxParams: " & Positive'Image(Idx_params));
-  Put_Line("DBG> Param_Cnt: " & Positive'Image(Param_Cnt));
+  Put_Line("DBG> Param_Cnt: " & Natural'Image(Param_Cnt));
 
  --
  -- run the command
  --
 
- if Command = Null_Unbounded_String
- then
+ if Command = Null_Unbounded_String then
 
    Print_Usage(Known_Options(v).State);
 
- elsif Command = "help"
- then
+ elsif Command = "help" then
 
    Print_Usage(Known_Options(v).State);
 
- elsif Command = "list"
- then
+ elsif Command = "list" then
 
    while Next <= Argument_Count loop
-    Put_Line("EXEC: list " & Argument(Next));
+    Put_Line(Natural'Image(Next) & " > " & Argument(Next));
     Next := Next + 1;
    end loop;
 
-  else
+ else
 
    Put_Line("Unknwon command");
 
