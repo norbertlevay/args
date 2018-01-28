@@ -11,9 +11,12 @@ package body Options is
 
 -- fill in Known_Options table
 -- return index to first non-option arg
-function Parse_Options(From : Positive) return Positive
+--function Parse_Options(From : Positive) return Positive
+ procedure Parse_Options
+           ( Next : in out Integer;
+             Opts : in out Option_Array)
  is
-  Idx : Positive := From;
+  Idx : Positive := Next;
  begin
 
   while Idx <= CLI.Argument_Count
@@ -27,27 +30,28 @@ function Parse_Options(From : Positive) return Positive
 
     exit when Arg(1) /= '-';
 
-    for opt in Known_Options'Range
+    -- for opt in Known_Options'Range
+    for opt in Opts'Range
     loop
 
-     if Arg = Known_Options(opt).Token
+     if Arg = Opts(opt).Token
      then
 
-      if Known_Options(opt).HasValue = False
+      if Opts(opt).HasValue = False
       then
-        Known_Options(opt).State := True;
+        Opts(opt).State := True;
         Put_Line(All_Options'Image(opt)
-                 & " WithValue: " & Boolean'Image(Known_Options(opt).HasValue)
-                 & " State: " & Boolean'Image(Known_Options(opt).State)
-                 & " > " & To_String(Known_Options(opt).Description)
+                 & " WithValue: " & Boolean'Image(Opts(opt).HasValue)
+                 & " State: " & Boolean'Image(Opts(opt).State)
+                 & " > " & To_String(Opts(opt).Description)
                  );
       else
         Idx := Idx + 1;
-        Known_Options(opt).Value := tUS(CLI.Argument(Idx));
+        Opts(opt).Value := tUS(CLI.Argument(Idx));
         Put_Line(All_Options'Image(opt)
-                 & " WithValue: " & Boolean'Image(Known_Options(opt).HasValue)
-                 & " Value: " & To_String(Known_Options(opt).Value)
-                 & " > " & To_String(Known_Options(opt).Description)
+                 & " WithValue: " & Boolean'Image(Opts(opt).HasValue)
+                 & " Value: " & To_String(Opts(opt).Value)
+                 & " > " & To_String(Opts(opt).Description)
                  );
       end if;
      end if;
@@ -58,7 +62,8 @@ function Parse_Options(From : Positive) return Positive
    Idx := Idx + 1;
   end loop;
 
-  return Idx;
+  Next := Idx;
+  return;
  end Parse_Options;
 
  -- if no params returned index is bigger then count of arguments
@@ -66,8 +71,11 @@ function Parse_Options(From : Positive) return Positive
            ( Next : in out Integer;
              Opts : in out Option_Array)
  is
-  Idx : Positive := Parse_Options(Next);
+  Idx : Positive;
  begin
+
+  Parse_Options(Next,Opts);
+  Idx := Next;
 
   if Idx > CLI.Argument_Count then
     Next := Idx;
@@ -78,7 +86,7 @@ function Parse_Options(From : Positive) return Positive
 
   Idx := Idx + 1;
 
-  Idx := Parse_Options(Idx);
+  Parse_Options(Idx,Opts);
 
   Next := Idx;
   return;

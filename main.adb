@@ -20,9 +20,25 @@ use
     Ada.Command_Line;
 
 
+
+
 procedure main is
 
  Version : String := "prog 0.0.0 Build: " & Build_Date.BuildDate ;
+
+ Known_Options : Option_Array := (
+   v => (False, tUS("-v"), tUS("print version"),     False ),
+   h => (False, tUS("-h"), tUS("print help"),        False ),
+   l => (True,  tUS("--verbose"), tUS("level of details (1..5)"),tUS("1") )
+ );
+
+ Commands: array (Positive range <>) of Option_Record := (
+   (False, tUS("help"), tUS("print help"),         False ),
+   (False, tUS("list"), tUS("list options table"), False )
+ );
+-- FIXME misused Option_Record; needs only Token & Description
+
+
 
  procedure Print_Usage(WithVersion : Boolean) is
  begin
@@ -40,12 +56,12 @@ procedure main is
     end loop;
    New_Line;
    Put_Line("Options:");
-    for opt in Options.Known_Options'Range
+    for opt in Known_Options'Range
     loop
       Put_Line(  "  "
-               & To_String(Options.Known_Options(opt).Token)
+               & To_String(Known_Options(opt).Token)
                & "    "
-               & To_String(Options.Known_Options(opt).Description));
+               & To_String(Known_Options(opt).Description));
     end loop;
    New_Line;
    if WithVersion = True then
