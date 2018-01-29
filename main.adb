@@ -1,23 +1,20 @@
 with
     Build_Date,
     Options,
-    -- Commands,
-    Ada.Exceptions,
     Ada.Text_IO,
-    Ada.Direct_IO,
-    Ada.Text_IO.Bounded_IO,
     Ada.Command_Line,
     Ada.Strings.Unbounded,
-    Ada.Strings.Bounded,
-    GNAT.Traceback.Symbolic;
-
+    Ada.Exceptions;
+--    GNAT.Traceback.Symbolic;
 
 use
     Options,
-    Ada.Exceptions,
     Ada.Text_IO,
+    Ada.Command_Line,
     Ada.Strings.Unbounded,
-    Ada.Command_Line;
+    Ada.Exceptions;
+
+
 
 procedure main is
 
@@ -35,7 +32,8 @@ procedure main is
    (False, tUS("list"), tUS("list parameters"), False ),
    (False, tUS("concat2"), tUS("join 2 strings"),   False )
  );
--- FIXME misused Option_Record; Commands needs only Token & Description
+ -- FIXME misused Option_Record; Commands needs only Token & Description
+
 
  procedure Print_Usage(WithVersion : Boolean) is
  begin

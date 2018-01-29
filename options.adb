@@ -12,7 +12,7 @@ package body Options is
 -- fill in Opts table
 -- update Next to first non-option arg
  procedure Parse_Options
-           ( Next : in out Integer;
+           ( Next : in out Positive;
              Opts : in out Option_Array)
  is
  begin

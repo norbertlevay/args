@@ -41,11 +41,13 @@ package Options is
 
  type All_Options is ( v, h, l, c );
  -- FIXME Option tables are defined in main.adb !!
+ -- But we need range to be options to identify certain opton in the code.
+ -- otherwise one would need to map range index to certain option.
 
  type Option_Array is array (All_Options) of Option_Record;
 
  procedure Parse_Options
-           ( Next : in out Integer;
+           ( Next : in out Positive;
              Opts : in out Option_Array);
 
 end Options;
