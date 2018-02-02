@@ -20,7 +20,13 @@ procedure main is
 
  Version : String := "prog 0.0.0 Build: " & Build_Date.BuildDate ;
 
- Known_Options : Option_Array := (
+ type MyOpts is (v,l,h,c);
+ type MyOption_Array is array (MyOpts) of Option_Record;
+ procedure pp is new Parse_Options(All_Options => MyOpts,
+                                   Option_Array => MyOption_Array);
+
+-- Known_Options : Option_Array := (
+ Known_Options : MyOption_Array := (
    v => (False, tUS("-v"), tUS("print version"),     False ),
    h => (False, tUS("-h"), tUS("print help"),        False ),
    l => (True,  tUS("--verbose"), tUS("level of details (1..5)"),tUS("1") ),
@@ -72,7 +78,8 @@ procedure main is
 
  begin
 
-  Parse_Options(Next,Known_Options);
+  -- Parse_Options(Next,Known_Options);
+  pp(Next,Known_Options);
 
   Put_Line("DBG> Next / ArgCnt "
            & Positive'Image(Next)
@@ -88,7 +95,8 @@ procedure main is
   Command := tUS(Argument(Next));
   Next    := Next + 1;
 
-  Parse_Options(Next,Known_Options);
+  -- Parse_Options(Next,Known_Options);
+  pp(Next,Known_Options);
 
   Param_Cnt := Argument_Count - Next + 1;
 
