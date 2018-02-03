@@ -27,6 +27,7 @@ procedure main is
                                      Option_Array => MyOption_Array);
 
  Known_Options : MyOption_Array := (
+  --    HasValue   Token     Description          State / Value
    v => (False, tUS("-v"), tUS("print version"),     False ),
    h => (False, tUS("-h"), tUS("print help"),        False ),
    l => (True,  tUS("--verbose"), tUS("level of details (1..5)"),tUS("1") ),
@@ -34,9 +35,10 @@ procedure main is
  );
 
  Commands: array (Positive range <>) of Option_Record := (
-   (False, tUS("help"), tUS("print help"),      False ),
-   (False, tUS("list"), tUS("list parameters"), False ),
-   (False, tUS("concat2"), tUS("join 2 strings"),   False )
+  --    HasValue    Token       Description               State
+        (False, tUS("help"),    tUS("print help"),        False ),
+        (False, tUS("list"),    tUS("list parameters"),   False ),
+        (False, tUS("concat2"), tUS("join 2 strings"), False )
  );
  -- FIXME misused Option_Record; Commands needs only Token & Description
 
